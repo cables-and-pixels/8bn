@@ -7,7 +7,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowUpRightFromSquare } from '@fortawesome/free-solid-svg-icons';
-import { getTokens, getOwners } from '../../lib/8bidou';
+import { getTokens, getOwners, getSwaps } from '../../lib/8bidou';
 import Token from '../../components/token';
 
 export default function Item() {
@@ -16,6 +16,7 @@ export default function Item() {
 
   const [token, setToken] = useState(null);
   const [owners, setOwners] = useState(null);
+  const [swaps, setSwaps] = useState(null);
 
   useEffect(() => {
     if (id) {
@@ -23,11 +24,8 @@ export default function Item() {
         const tokens = await getTokens([id]);
         if (tokens.length) {
           setToken(tokens[0]);
-          let owners = await getOwners(id);
-          owners = owners.filter(o => {
-            return o.balance > 0 && o.account.address.slice(0, 2) === 'tz';
-          });
-          setOwners(owners);
+          setOwners(await getOwners(id));
+          setSwaps(await getSwaps(id));
         }
       })();
     }
@@ -81,7 +79,7 @@ export default function Item() {
                 {owners && (
                   <>
                     <h3 className="my-4">Owners</h3>
-                    <table>
+                    <table className="table-sm">
                       <tbody>
                         {owners.map(o => (
                           <tr key={o.id}>
@@ -100,6 +98,30 @@ export default function Item() {
                         ))}
                       </tbody>
                     </table>
+                  </>
+                )}
+                {swaps && (
+                  <>
+                    <h3 className="my-4">Swaps</h3>
+                    <table className="table-sm"><tbody>
+                      {swaps.map(s => (
+                        <tr key={s.id}>
+                          <td>
+                            <a href={
+                              'https://8bidou.com/item_detail/?id=' + s.key
+                            }>
+                              {s.value.payment / 1000000} ꜩ
+                              {' '}
+                              <FontAwesomeIcon
+                                icon={faArrowUpRightFromSquare} />
+                            </a>
+                          </td>
+                          <td>
+                            x{s.value.nft_amount}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody></table>
                   </>
                 )}
               </Col>
