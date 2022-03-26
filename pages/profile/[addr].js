@@ -6,6 +6,8 @@ import Layout from '../../components/layout';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowUpRightFromSquare } from '@fortawesome/free-solid-svg-icons';
 const hexToChar = (str) =>
   str.match(/.{1,2}/g)
      .map((v) => String.fromCharCode(parseInt(v, 16)))
@@ -97,9 +99,12 @@ export default function Profile() {
 
   return (
     <Layout>
-      <a href={'https://8bidou.com/inventory/?addr=' + addr}><b>{addr}</b></a>
+      <b>{addr}</b>{' '}
+      <a href={'https://8bidou.com/inventory/?addr=' + addr}>
+        <b><FontAwesomeIcon icon={faArrowUpRightFromSquare} /></b>
+      </a>
       {tzprofile?.loading && (
-        <p><i className="fa-solid fa-circle-notch fa-spin" /></p>
+        <p>...</p>
       )}
       {tzprofile?.twitter && (
         <p className="mt-1">
