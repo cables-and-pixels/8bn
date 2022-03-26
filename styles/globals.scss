@@ -1,0 +1,17 @@
+$primary: #dd0000;
+$body-bg: #e9ecef;
+$body-color: #212529;
+$font-family-base: 'Roboto', sans-serif;
+$headings-font-family: 'Jost', sans-serif;
+$font-size: 1rem;
+$border-radius: 0;
+
+@import "~bootstrap/scss/bootstrap";
+
+$fa-font-path: "/fonts";
+
+@import "~@fortawesome/fontawesome-free/scss/fontawesome";
+@import "~@fortawesome/fontawesome-free/scss/solid";
+@import "~@fortawesome/fontawesome-free/scss/regular";
+@import "~@fortawesome/fontawesome-free/scss/brands";
+
