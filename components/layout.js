@@ -34,7 +34,7 @@ export default function Layout({ children }) {
                   8bidou.com
                 </a>{' | '}
                 <a href="https://8bidou-tools.vercel.app/">
-                  8bidou pinkyblu's tools
+                  8bidou pinkyblu&#39;s tools
                 </a>
               </p>
             </Col>
