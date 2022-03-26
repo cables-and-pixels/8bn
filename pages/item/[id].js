@@ -51,7 +51,7 @@ export default function Item() {
                       <td>
                         {token.name}{' '}
                         <a href={`https://8bidou.com/listing/?id=${id}`}
-                           target="_blank" rel="noreferer">
+                           target="_blank" rel="noreferrer">
                           <FontAwesomeIcon icon={faArrowUpRightFromSquare} />
                         </a>
                       </td>
