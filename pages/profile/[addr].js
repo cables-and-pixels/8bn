@@ -8,6 +8,7 @@ import Col from 'react-bootstrap/Col';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowUpRightFromSquare } from '@fortawesome/free-solid-svg-icons';
+import { faTwitter } from '@fortawesome/free-brands-svg-icons';
 
 const hexToChar = (str) =>
   str.match(/.{1,2}/g)
@@ -133,7 +134,7 @@ export default function Profile() {
         <div id={addr}>
           {creations && (
             <>
-              <h3>Creations</h3>
+              <h3 className="my-4">Creations</h3>
               <Row className="justify-content-md-left">
                 {creations.map(t =>
                   <Token link={false} key={t.tokenId} token={t} />
@@ -143,7 +144,7 @@ export default function Profile() {
           )}
           {collection && (
             <>
-              <h3>Collection</h3>
+              <h3 className="my-4">Collection</h3>
               <Row className="justify-content-md-left">
                 {collection.map(t =>
                   <Token link={true} key={t.tokenId} token={t} />
@@ -199,7 +200,8 @@ function TwitterLink(props) {
   return (
     <a href={`https://twitter.com/${props.name}`}
        target="_blank" rel="noreferrer">
-      @{props.name}
+      <FontAwesomeIcon icon={faTwitter} />{' '}
+      {props.name}
     </a>
   );
 }

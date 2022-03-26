@@ -7,3 +7,11 @@ $font-size: 1rem;
 $border-radius: 0;
 
 @import "~bootstrap/scss/bootstrap";
+
+#__next {
+  margin: 2rem 0;
+}
+
+a {
+  text-decoration: none;
+}
