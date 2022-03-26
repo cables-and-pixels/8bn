@@ -1,15 +1,35 @@
-import Head from 'next/head'
-// import Image from 'next/image'
-import styles from '../styles/Home.module.css'
+import { useState } from 'react';
+import { useRouter } from 'next/router';
+import Layout from '../components/layout';
 
 export default function Home() {
+  const [tzAddr, setTzAddr] = useState('');
+  const router = useRouter();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (tzAddr !== '') {
+      router.push(`/profile/${tzAddr}`);
+    }
+  };
+
   return (
-    <div className={styles.container}>
-      <Head>
-        <title>8bn</title>
-        <meta name="description" content="" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-    </div>
-  )
+    <Layout>
+      <form onSubmit={handleSubmit}>
+        <div className="form-group m-3">
+          <label htmlFor="tzaddr">Tezos address:</label>
+          <input id="tzaddr"
+                 className="form-control"
+                 placeholder="tz..."
+                 onChange={(e) => setTzAddr(e.target.value)}/>
+        </div>
+        <div className="m-3">
+          <button type="submit" className="btn btn-primary">
+            Go
+          </button>
+        </div>
+      </form>
+    </Layout>
+  );
 }
+

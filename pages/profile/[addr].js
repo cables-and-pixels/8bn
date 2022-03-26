@@ -8,6 +8,7 @@ import Col from 'react-bootstrap/Col';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowUpRightFromSquare } from '@fortawesome/free-solid-svg-icons';
+
 const hexToChar = (str) =>
   str.match(/.{1,2}/g)
      .map((v) => String.fromCharCode(parseInt(v, 16)))
@@ -42,8 +43,9 @@ const getTokens = async (addr) => {
        '?key.in=' + tokenIds.join(','));
   const r2 = await fetch(url2, {method: 'GET'});
   const json2 = await r2.json();
-  return json2.map((t) => {
-    return {
+
+  const data = json2.reduce((h, t) => {
+    h[t.key] = {
       tokenId: t.key,
       rgb: t.value.rgb,
       addr: t.value.creater,
@@ -51,7 +53,10 @@ const getTokens = async (addr) => {
       name: hexToChar(t.value.token_name),
       balance: balance[t.key],
     };
-  });
+    return h;
+  }, {});
+
+  return tokenIds.map((i) => data[i]);
 }
 
 const getTzprofile = async (id) => {
@@ -61,7 +66,9 @@ const getTzprofile = async (id) => {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
     },
-    body: JSON.stringify({query: `{ tzprofiles_by_pk(account: \"${id}\") { twitter } }`}),
+    body: JSON.stringify({
+      query: `{ tzprofiles_by_pk(account: \"${id}\") { twitter } }`
+    }),
   });
   const json = await r.json();
   return {
@@ -97,39 +104,56 @@ export default function Profile() {
     }
   }, [addr]);
 
+  const creations = tokens ? tokens.filter((t) => t.addr === addr) : [];
+  const collection = tokens ? tokens.filter((t) => t.addr !== addr) : [];
+
   return (
-    <Layout>
-      <b>{addr}</b>{' '}
-      <a href={'https://8bidou.com/inventory/?addr=' + addr}>
-        <b><FontAwesomeIcon icon={faArrowUpRightFromSquare} /></b>
-      </a>
-      {tzprofile?.loading && (
-        <p>...</p>
-      )}
-      {tzprofile?.twitter && (
-        <p className="mt-1">
-          <strong><TwitterLink name={tzprofile.twitter} /></strong>
+    <>
+      <Head>
+        <title>8bn | {addr}</title>
+      </Head>
+      <Layout>
+        <p>
+          <b>{addr}</b>
+          {' '}
+          <a href={'https://8bidou.com/inventory/?addr=' + addr}
+             target="_blank" rel="noreferrer">
+            <FontAwesomeIcon icon={faArrowUpRightFromSquare} />
+          </a>
         </p>
-      )}
-      <div id={addr}>
-        <h3>Creations</h3>
-        {tokens &&
-         <Row className="justify-content-md-left">
-           {tokens.map(t =>
-             t.addr === addr && <Token link={false} key={t.tokenId} token={t} />
-           )}
-         </Row>
-        }
-        <h3>Collection</h3>
-        {tokens &&
-         <Row className="justify-content-md-left">
-           {tokens.map(t =>
-             t.addr !== addr && <Token link={true} key={t.tokenId} token={t} />
-           )}
-         </Row>
-        }
-      </div>
-    </Layout>
+        <p className="mt-1">
+          {tzprofile?.loading && (
+            <span>...</span>
+          )}
+          {tzprofile?.twitter && (
+            <strong><TwitterLink name={tzprofile.twitter} /></strong>
+          )}
+          {!(tzprofile?.twitter) && ' '}
+        </p>
+        <div id={addr}>
+          {creations && (
+            <>
+              <h3>Creations</h3>
+              <Row className="justify-content-md-left">
+                {creations.map(t =>
+                  <Token link={false} key={t.tokenId} token={t} />
+                )}
+              </Row>
+            </>
+          )}
+          {collection && (
+            <>
+              <h3>Collection</h3>
+              <Row className="justify-content-md-left">
+                {collection.map(t =>
+                  <Token link={true} key={t.tokenId} token={t} />
+                )}
+              </Row>
+            </>
+          )}
+        </div>
+      </Layout>
+    </>
   );
 }
 
@@ -166,8 +190,7 @@ function Token(props) {
 
   return (
     <Col xs="auto">
-      {canvas}
-      <p>x{t.balance}</p>
+      <p>{canvas}</p>
     </Col>
   );
 }
