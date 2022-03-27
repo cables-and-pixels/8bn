@@ -2,6 +2,9 @@ import Container from 'react-bootstrap/Container';
 import Link from 'next/link';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowUpRightFromSquare } from '@fortawesome/free-solid-svg-icons';
+import { faTwitter } from '@fortawesome/free-brands-svg-icons';
 
 export default function Layout({ children }) {
   return (
@@ -23,6 +26,7 @@ export default function Layout({ children }) {
                 {' | '}
                 <a href="https://twitter.com/CablesAndPixels"
                    target="_blank" rel="noreferrer">
+                  <FontAwesomeIcon icon={faTwitter} />{' '}
                   Twitter
                 </a>
               </p>
@@ -33,10 +37,12 @@ export default function Layout({ children }) {
                 <a href="https://www.8bidou.com/"
                    target="_blank" rel="noreferrer">
                   8bidou.com
+                  {' '}<FontAwesomeIcon icon={faArrowUpRightFromSquare} />
                 </a>{' | '}
                 <a href="https://8bidou-tools.vercel.app/"
                    target="_blank" rel="noreferrer">
                   8bidou pinkyblu&#39;s tools
+                  {' '}<FontAwesomeIcon icon={faArrowUpRightFromSquare} />
                 </a>
               </p>
             </Col>

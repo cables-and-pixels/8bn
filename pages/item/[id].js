@@ -7,7 +7,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowUpRightFromSquare } from '@fortawesome/free-solid-svg-icons';
-import { getTokens, getOwners, getSwaps } from '../../lib/8bidou';
+import { getTokens, getOwners, getSwaps, rgbToDataURL } from '../../lib/8bidou';
 import Token from '../../components/token';
 
 export default function Item() {
@@ -33,19 +33,8 @@ export default function Item() {
   }, [id]);
 
   useEffect(() => {
-    if (token) {
-      const c = document.createElement('canvas');
-      c.width = 16;
-      c.height = 16;
-      const ctx = c.getContext('2d');
-      const rgb = token.rgb.match(/.{1,6}/g).map((x) => '#' + x);
-      for (let x = 0; x < 8; x++) {
-        for (let y = 0; y <8; y++) {
-          ctx.fillStyle = rgb[x + y * 8];
-          ctx.fillRect(x * 2, y * 2, 2, 2);
-        }
-      }
-      setFavicon(c.toDataURL('image/png'));
+    if (token && token.rgb) {
+      setFavicon(rgbToDataURL(token.rgb));
     }
   }, [token]);
 

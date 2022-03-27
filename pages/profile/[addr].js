@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import Head from 'next/head'
 import Link from 'next/link'
 import { useRouter } from 'next/router';
@@ -9,7 +9,7 @@ import Col from 'react-bootstrap/Col';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowUpRightFromSquare } from '@fortawesome/free-solid-svg-icons';
 
-import { getAddrTokens, getTzprofile } from '../../lib/8bidou';
+import { getAddrTokens, getTzprofile, rgbToDataURL } from '../../lib/8bidou';
 import TwitterLink from '../../components/twlink';
 import Token from '../../components/token';
 
@@ -19,6 +19,15 @@ export default function Profile() {
 
   const [tokens, setTokens] = useState(null);
   const [tzprofile, setTzprofile] = useState({loading: false});
+  const [favicon, setFavicon] = useState('/nanosillon-32.png');
+
+  const creations = useMemo(() => {
+    return tokens ? tokens.filter((t) => t && t.addr === addr) : [];
+  }, [addr, tokens]);
+
+  const collection = useMemo(() => {
+    return tokens ? tokens.filter((t) => t && t.addr !== addr) : [];
+  }, [addr, tokens]);
 
   useEffect(() => {
     if (addr) {
@@ -41,14 +50,23 @@ export default function Profile() {
     }
   }, [addr]);
 
-  const creations = tokens ? tokens.filter((t) => t && t.addr === addr) : [];
-  const collection = tokens ? tokens.filter((t) => t && t.addr !== addr) : [];
+  useEffect(() => {
+    let rgb = (creations.length ?
+               creations[0].rgb :
+               (collection.length ?
+                collection[0].rgb :
+                null));
+    if (rgb) {
+      setFavicon(rgbToDataURL(rgb));
+    }
+    console.log(rgb);
+  }, [creations, collection]);
 
   return (
     <>
       <Head>
         <title>8bn | {addr}</title>
-        <link rel="icon" href={'/nanosillon-32.png'} />
+        <link rel="icon" href={favicon} />
       </Head>
       <Layout>
         <p>
