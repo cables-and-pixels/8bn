@@ -17,6 +17,7 @@ export default function Item() {
   const [token, setToken] = useState(null);
   const [owners, setOwners] = useState(null);
   const [swaps, setSwaps] = useState(null);
+  const [favicon, setFavicon] = useState('/nanosillon-32.png');
 
   useEffect(() => {
     if (id) {
@@ -31,10 +32,28 @@ export default function Item() {
     }
   }, [id]);
 
+  useEffect(() => {
+    if (token) {
+      const c = document.createElement('canvas');
+      c.width = 16;
+      c.height = 16;
+      const ctx = c.getContext('2d');
+      const rgb = token.rgb.match(/.{1,6}/g).map((x) => '#' + x);
+      for (let x = 0; x < 8; x++) {
+        for (let y = 0; y <8; y++) {
+          ctx.fillStyle = rgb[x + y * 8];
+          ctx.fillRect(x * 2, y * 2, 2, 2);
+        }
+      }
+      setFavicon(c.toDataURL('image/png'));
+    }
+  }, [token]);
+
   return (
     <>
       <Head>
         <title>8bn | {id}</title>
+        <link rel="icon" href={favicon} />
       </Head>
       <Layout>
         {token && (

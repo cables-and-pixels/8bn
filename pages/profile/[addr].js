@@ -48,6 +48,7 @@ export default function Profile() {
     <>
       <Head>
         <title>8bn | {addr}</title>
+        <link rel="icon" href={'/nanosillon-32.png'} />
       </Head>
       <Layout>
         <p>
