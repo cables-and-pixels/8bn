@@ -17,23 +17,22 @@ export default function Profile() {
   const router = useRouter();
   const addr = router.query.addr;
 
-  const [tokens, setTokens] = useState(null);
+  const [tokens, setTokens] = useState({
+    creations: [],
+    collection: [],
+  });
   const [tzprofile, setTzprofile] = useState({loading: false});
   const [favicon, setFavicon] = useState('/nanosillon-32.png');
 
-  const creations = useMemo(() => {
-    return tokens ? tokens.filter((t) => t && t.addr === addr) : [];
-  }, [addr, tokens]);
-
-  const collection = useMemo(() => {
-    return tokens ? tokens.filter((t) => t && t.addr !== addr) : [];
-  }, [addr, tokens]);
-
   useEffect(() => {
     if (addr) {
-      setTokens([]);
       (async () => {
-        setTokens(await getAddrTokens(addr));
+        const data = await getAddrTokens(addr);
+        const tokens = {
+          collection: data ? data.filter((t) => t && t.addr !== addr) : [],
+          creations: data ? data.filter((t) => t && t.addr === addr) : [],
+        };
+        setTokens(tokens);
       })();
     }
   }, [addr]);
@@ -51,16 +50,15 @@ export default function Profile() {
   }, [addr]);
 
   useEffect(() => {
-    let rgb = (creations.length ?
-               creations[0].rgb :
-               (collection.length ?
-                collection[0].rgb :
+    let rgb = (tokens && tokens.creations.length ?
+               tokens.creations[0].rgb :
+               (tokens && tokens.collection.length ?
+                tokens.collection[0].rgb :
                 null));
     if (rgb) {
       setFavicon(rgbToDataURL(rgb));
     }
-    console.log(rgb);
-  }, [creations, collection]);
+  }, [tokens]);
 
   return (
     <>
@@ -87,11 +85,11 @@ export default function Profile() {
           {!(tzprofile?.twitter) && ' '}
         </p>
         <div id={addr}>
-          {creations && (
+          {tokens.creations && (
             <>
               <h3 className="my-4">Creations</h3>
               <Row className="justify-content-md-left">
-                {creations.map(t =>
+                {tokens.creations.map(t =>
                   <Col xs="auto" key={t.tokenId}>
                     <p><Token link={`/item/${t.tokenId}`} token={t} /></p>
                   </Col>
@@ -99,11 +97,11 @@ export default function Profile() {
               </Row>
             </>
           )}
-          {collection && (
+          {tokens.collection && (
             <>
               <h3 className="my-4">Collection</h3>
               <Row className="justify-content-md-left">
-                {collection.map(t =>
+                {tokens.collection.map(t =>
                   <Col xs="auto" key={t.tokenId}>
                     <p><Token token={t} link={`/profile/${t.addr}`} /></p>
                   </Col>
