@@ -2,12 +2,12 @@ import App from "next/app";
 import { createGlobalStyle } from "styled-components";
 import { config, dom } from "@fortawesome/fontawesome-svg-core";
 
+import '../styles/globals.scss';
+
 config.autoAddCss = false;
 const GlobalStyles = createGlobalStyle`
     ${dom.css()}
 `;
-
-import '../styles/globals.scss'
 
 function MyApp({ Component, pageProps }) {
   return (
@@ -16,6 +16,6 @@ function MyApp({ Component, pageProps }) {
       <Component {...pageProps} />
     </>
   );
-}
+};
 
-export default MyApp
+export default MyApp;
