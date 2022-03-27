@@ -45,3 +45,19 @@ canvas {
 svg {
   display: none;
 }
+
+.tokenContainer {
+  display: inline-block;
+  max-width: 400px;
+  border: 40px solid #fff;
+
+  @include media-breakpoint-up(md) {
+    border: 80px solid #fff;
+  }
+}
+
+td {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

@@ -49,12 +49,10 @@ export default function Item() {
           <>
             <Row>
               <Col lg={6}>
-                <div className="my-4" style={{
-                  display: 'inline-block',
-                  maxMidth: '400px',
-                  border: '80px solid #fff'
-                }}>
-                  <Token size={240} token={token} />
+                <div className="text-center my-4">
+                  <div className="tokenContainer">
+                    <Token size={240} token={token} />
+                  </div>
                 </div>
                 <table className="table">
                   <tbody>
@@ -87,25 +85,27 @@ export default function Item() {
                 {owners && (
                   <>
                     <h3 className="my-4">Owners</h3>
-                    <table className="table-sm">
-                      <tbody>
-                        {owners.map(o => (
-                          <tr key={o.id}>
-                            <td>
-                              <Link href={`/profile/${o.account.address}`}>
-                                <a>
-                                  {o.account.alias ?
-                                   o.account.alias : o.account.address}
-                                </a>
-                              </Link>
-                            </td>
-                            <td>
-                              x{o.balance}
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
+                    <div className="table-responsive">
+                      <table className="table-sm">
+                        <tbody>
+                          {owners.map(o => (
+                            <tr key={o.id}>
+                              <td>
+                                <Link href={`/profile/${o.account.address}`}>
+                                  <a>
+                                    {o.account.alias ?
+                                     o.account.alias : o.account.address}
+                                  </a>
+                                </Link>
+                              </td>
+                              <td>
+                                x{o.balance}
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
                   </>
                 )}
                 {swaps && (

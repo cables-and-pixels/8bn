@@ -9,7 +9,8 @@ import Col from 'react-bootstrap/Col';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowUpRightFromSquare } from '@fortawesome/free-solid-svg-icons';
 
-import { getAddrTokens, getTzprofile, rgbToDataURL } from '../../lib/8bidou';
+import { getAddrTokens, rgbToDataURL } from '../../lib/8bidou';
+import { getTzprofile } from '../../lib/tzprofile';
 import TwitterLink from '../../components/twlink';
 import Token from '../../components/token';
 
@@ -91,7 +92,7 @@ export default function Profile() {
               <Row className="justify-content-md-left">
                 {tokens.creations.map(t =>
                   <Col xs="auto" key={t.tokenId}>
-                    <p><Token link={`/item/${t.tokenId}`} token={t} /></p>
+                    <p><Token token={t} link={`/item/${t.tokenId}`} /></p>
                   </Col>
                 )}
               </Row>
@@ -103,7 +104,7 @@ export default function Profile() {
               <Row className="justify-content-md-left">
                 {tokens.collection.map(t =>
                   <Col xs="auto" key={t.tokenId}>
-                    <p><Token token={t} link={`/profile/${t.addr}`} /></p>
+                    <p><Token token={t} link={`/item/${t.tokenId}`} /></p>
                   </Col>
                 )}
               </Row>
