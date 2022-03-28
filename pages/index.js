@@ -2,7 +2,9 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 import Layout from '../components/layout';
 
-export default () => { return '' };
+export default function Home() {
+  return ''
+};
 
 function _Home() {
   const [tzAddr, setTzAddr] = useState('');
