@@ -7,7 +7,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowUpRightFromSquare } from '@fortawesome/free-solid-svg-icons';
-import { getTokens, getOwners, getSwaps, rgbToDataURL } from '../../lib/8bidou';
+import { getTokens, getOwners, getTokenSwaps, rgbToDataURL } from '../../lib/8bidou';
 import Token from '../../components/token';
 
 export default function Item() {
@@ -26,7 +26,7 @@ export default function Item() {
         if (tokens.length) {
           setToken(tokens[0]);
           setOwners(await getOwners(id));
-          setSwaps(await getSwaps(id));
+          setSwaps(await getTokenSwaps(id));
         }
       })();
     }
