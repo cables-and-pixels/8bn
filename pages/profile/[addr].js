@@ -29,11 +29,15 @@ export default function Profile() {
     if (addr) {
       (async () => {
         const data = await getAddrTokens(addr);
-        const tokens = {
-          collection: data ? data.filter((t) => t && t.addr !== addr) : [],
-          creations: data ? data.filter((t) => t && t.addr === addr) : [],
-        };
-        setTokens(tokens);
+        const creations =
+          data ?
+          data.filter((t) => t && t.addr === addr) :
+          [];
+        const collection =
+          data ?
+          data.filter((t) => t && t.addr !== addr &&t.balance > 0) :
+          [];
+        setTokens({creations, collection});
       })();
     }
   }, [addr]);
