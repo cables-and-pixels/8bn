@@ -2,7 +2,9 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 import Layout from '../components/layout';
 
-export default function Home() {
+export default () => { return '' };
+
+function _Home() {
   const [tzAddr, setTzAddr] = useState('');
   const router = useRouter();
 
@@ -32,4 +34,3 @@ export default function Home() {
     </Layout>
   );
 }
-
