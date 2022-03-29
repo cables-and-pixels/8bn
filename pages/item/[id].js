@@ -10,7 +10,7 @@ import { faArrowUpRightFromSquare } from '@fortawesome/free-solid-svg-icons';
 import { getTokens, getOwners, getTokenSwaps, rgbToDataURL } from '../../lib/8bidou';
 import Token from '../../components/token';
 
-function Item() {
+export default function Item() {
   const router = useRouter();
   const id = router.query.id;
 

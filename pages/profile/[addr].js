@@ -14,7 +14,7 @@ import { getTzprofile } from '../../lib/tzprofile';
 import TwitterLink from '../../components/twlink';
 import Token from '../../components/token';
 
-function Profile() {
+export default function Profile() {
   const router = useRouter();
   const addr = router.query.addr;
 
