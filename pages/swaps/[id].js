@@ -17,7 +17,10 @@ export default function Home() {
 
   return (
     <Layout>
-      {data.swaps.length && (
+      {data.swaps.length == 0 && (
+        <p>(no swaps)</p>
+      )}
+      {data.swaps.length > 0 && (
         <>
           <h1>Swaps</h1>
           <table className="table">
